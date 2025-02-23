@@ -1,6 +1,6 @@
 # Writeup_HTBWebChallenge
 Write-up Web Challenge Hack The Box
-## CDNio
+## 	:triangular_flag_on_post: CDNio
 Overview of the site have features: 
 - register a new account with username, password, email
 - search user profile
