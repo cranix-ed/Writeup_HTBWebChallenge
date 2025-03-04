@@ -2,10 +2,10 @@
 Write-up Web Challenge Hack The Box
 
 ## Table of Content
-[CDNio](#triangular_flag_on_post-cdnio)
+[CDNio](#cdnio)
 
-[Pentest Notes](#triangular_flag_on_post-pentest-notes)
-## 	:triangular_flag_on_post: CDNio
+[Pentest Notes](#pentest-notes)
+## <a name="cdnio"></a> 	:triangular_flag_on_post: CDNio
 Overview of the site have features: 
 - register a new account with username, password, email
 - search user profile
@@ -59,4 +59,4 @@ Get request to `profile/test.css` and done, receive flag
 
 ![image](https://github.com/user-attachments/assets/e12e788e-3746-4841-aef6-c36f49f0cf5e)
 
-## 	:triangular_flag_on_post: Pentest Notes
+## <a name="pentest-notes"></a> 	:triangular_flag_on_post: Pentest Notes
