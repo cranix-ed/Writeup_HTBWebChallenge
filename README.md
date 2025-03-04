@@ -2,9 +2,9 @@
 Write-up Web Challenge Hack The Box
 
 ## Table of Content
-[CDNio](#cdnio)
+[CDNio](#triangular_flag_on_post-cdnio)
 
-[Pentest Notes](#pentest-notes)
+[Pentest Notes](#triangular_flag_on_post-pentest-notes)
 ## 	:triangular_flag_on_post: CDNio
 Overview of the site have features: 
 - register a new account with username, password, email
