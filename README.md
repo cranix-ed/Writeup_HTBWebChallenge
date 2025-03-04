@@ -60,3 +60,23 @@ Get request to `profile/test.css` and done, receive flag
 ![image](https://github.com/user-attachments/assets/e12e788e-3746-4841-aef6-c36f49f0cf5e)
 
 ## <a name="pentest-notes"></a> 	:triangular_flag_on_post: Pentest Notes
+Overview site, some feature:
+- register, login
+
+![image](https://github.com/user-attachments/assets/f8323701-3cd1-4b08-865f-15be739080b5)
+![image](https://github.com/user-attachments/assets/1f1cfd74-b0d9-4c7a-b29e-8204d1381e34)
+
+- list pentest, notes
+
+![image](https://github.com/user-attachments/assets/63b1097a-c52f-4d0d-aa95-ddd078503e5a)
+![image](https://github.com/user-attachments/assets/74c5f5a9-1c4d-4a25-a0ca-7f12b8a06198)
+
+In page Note detail, we can see a parameter `name` 
+
+![image](https://github.com/user-attachments/assets/0e306909-5323-4f44-82b3-df2fe236cb60)
+
+Audit source, in `NotesController.java` param `name` insert to query
+
+![image](https://github.com/user-attachments/assets/381adc91-3d7d-46de-b204-c04a1685701f)
+
+This is SQL Injection vulnerability, we can insert query to leak data in database
