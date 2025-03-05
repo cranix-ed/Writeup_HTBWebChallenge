@@ -124,3 +124,43 @@ And now, we can call ALIAS and pass OS Command
 ![image](https://github.com/user-attachments/assets/56e60c11-77ea-442c-a851-fb6e98c0d76b)
 
 ## <a name="insomnia"></a> 	:triangular_flag_on_post: Insomnia
+
+This challenge just have feature signup, signin and token jwt for authentication
+
+![image](https://github.com/user-attachments/assets/4e00bc71-8313-432a-af82-59c91ee0281b)
+![image](https://github.com/user-attachments/assets/c8da7d35-c659-413f-a16c-309aa2c27247)
+
+Let's audit source see if there is anything interesting
+
+![image](https://github.com/user-attachments/assets/9b036fbc-26ad-41d6-bf03-2069b8cd2845)
+
+`ProfileController.php` in folder `app` decode from token and get `username=administrator` will return flag 
+
+![image](https://github.com/user-attachments/assets/db96f2da-55f7-43e7-b512-4689b8e0ff74)
+
+However, file `entrypoint.sh`, both JWT_SECRET and password has been defined random, which means it's almost impossible to fake admin token
+
+In `UserController.php` file have function `login()`, there is a piece of code that should notice
+
+![image](https://github.com/user-attachments/assets/296128da-afdb-49e7-9db3-e7222ca36b34)
+
+``` php
+      if (!count($json_data) == 2) {
+          return $this->respond("Please provide username and password", 404);
+      }
+```
+This patch filter data login of user inclusion username, password. `count($json_data)` return number of rows.
+
+Suppose `count($json_data)=2` => !2=0(false) and 0 alway difference 2. That mean above condition incorrect. So, input data always bypass this patch.
+
+``` php
+      $query = $db->table("users")->getWhere($json_data, 1, 0);
+```
+
+This line of code get data from `users` by $json_data condition. We can request `username = administrator`, it's will bypass filter and get data with condition username = administrator
+
+![image](https://github.com/user-attachments/assets/464bea95-a046-4342-9193-ba5cd2ff8ec3)
+
+Just login with username, token admin will return
+
+![image](https://github.com/user-attachments/assets/234e9717-54aa-48d9-bf28-cf43d8134dd7)
