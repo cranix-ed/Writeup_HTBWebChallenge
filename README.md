@@ -6,7 +6,7 @@ Write-up Web Challenge Hack The Box
 
 [Pentest Notes](#pentest-notes)
 
-[Pentest Notes](#insomnia)
+[Insomnia](#insomnia)
 
 ## <a name="cdnio"></a> 	:triangular_flag_on_post: CDNio
 Overview of the site have features: 
