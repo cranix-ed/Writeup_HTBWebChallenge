@@ -151,7 +151,7 @@ In `UserController.php` file have function `login()`, there is a piece of code t
 ```
 This patch filter data login of user inclusion username, password. `count($json_data)` return number of rows.
 
-Suppose `count($json_data)=2` => !2=0(false) and 0 alway difference 2. That mean above condition incorrect. So, input data always bypass this patch.
+Suppose `count($json_data)=2` => !2=0(false) and 0 alway difference 2. That mean above condition incorrect. So, input data always bypass this patch, it's [Authentication Vulnerability](https://portswigger.net/web-security/authentication).
 
 ``` php
       $query = $db->table("users")->getWhere($json_data, 1, 0);
